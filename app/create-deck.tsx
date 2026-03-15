@@ -133,6 +133,8 @@ export default function CreateDeckScreen() {
     setExpandedCard(expandedCard === index ? null : index);
   };
 
+  const stepTitle = step === 'form' ? 'Create Deck' : 'Preview Cards';
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: COLORS.background }}
@@ -140,43 +142,49 @@ export default function CreateDeckScreen() {
     >
       <Stack.Screen options={{ headerShown: false }} />
 
-      {/* Header */}
+      {/* Orange hero header */}
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
+          backgroundColor: COLORS.primary,
           paddingTop: insets.top + 16,
-          paddingBottom: 16,
-          borderBottomWidth: 1,
-          borderBottomColor: COLORS.divider,
+          paddingBottom: 24,
+          paddingHorizontal: 20,
+          overflow: 'hidden',
         }}
       >
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: '700',
-            color: COLORS.text,
-            fontFamily: 'SpaceGrotesk_700Bold',
-          }}
-        >
-          {step === 'form' ? 'New Deck' : 'Preview Cards'}
-        </Text>
-        <AnimatedPressable onPress={handleClose}>
-          <View
-            style={{
-              width: 32,
-              height: 32,
-              borderRadius: 16,
-              backgroundColor: COLORS.surfaceSecondary,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <X size={16} color={COLORS.textSecondary} />
+        {/* Decorative stars */}
+        <Text style={{ position: 'absolute', top: insets.top + 8, right: 28, fontSize: 24, opacity: 0.2, color: '#fff' }}>✦</Text>
+        <Text style={{ position: 'absolute', top: insets.top + 36, right: 64, fontSize: 14, opacity: 0.15, color: '#fff' }}>★</Text>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Text style={{ fontSize: 28 }}>🎓</Text>
+            <Text
+              style={{
+                fontSize: 22,
+                fontWeight: '800',
+                color: '#fff',
+                fontFamily: 'Nunito_800ExtraBold',
+              }}
+            >
+              {stepTitle}
+            </Text>
           </View>
-        </AnimatedPressable>
+          <AnimatedPressable onPress={handleClose}>
+            <View
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: 17,
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <X size={16} color="#fff" />
+            </View>
+          </AnimatedPressable>
+        </View>
       </View>
 
       {step === 'form' ? (
@@ -241,14 +249,14 @@ export default function CreateDeckScreen() {
             <View
               style={{
                 backgroundColor: 'rgba(239,68,68,0.08)',
-                borderRadius: 10,
+                borderRadius: 12,
                 padding: 12,
                 marginBottom: 16,
                 borderWidth: 1,
                 borderColor: 'rgba(239,68,68,0.15)',
               }}
             >
-              <Text style={{ fontSize: 13, color: COLORS.danger, fontFamily: 'SpaceGrotesk_500Medium' }}>
+              <Text style={{ fontSize: 13, color: COLORS.danger, fontFamily: 'Nunito_600SemiBold' }}>
                 {error}
               </Text>
             </View>
@@ -258,28 +266,32 @@ export default function CreateDeckScreen() {
             <View
               style={{
                 backgroundColor: COLORS.primary,
-                borderRadius: 14,
-                paddingVertical: 15,
+                borderRadius: 16,
+                height: 56,
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'row',
                 gap: 8,
-                borderCurve: 'continuous',
                 opacity: generating ? 0.8 : 1,
+                shadowColor: COLORS.primary,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.35,
+                shadowRadius: 10,
+                elevation: 4,
               }}
             >
               {generating ? (
                 <>
                   <ActivityIndicator color="#fff" size="small" />
-                  <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff', fontFamily: 'SpaceGrotesk_600SemiBold' }}>
+                  <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
                     Generating flashcards...
                   </Text>
                 </>
               ) : (
                 <>
                   <Sparkles size={18} color="#fff" />
-                  <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff', fontFamily: 'SpaceGrotesk_600SemiBold' }}>
-                    Generate flashcards
+                  <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
+                    Generate Flashcards
                   </Text>
                 </>
               )}
@@ -294,7 +306,7 @@ export default function CreateDeckScreen() {
               style={{
                 fontSize: 15,
                 color: COLORS.textSecondary,
-                fontFamily: 'SpaceGrotesk_500Medium',
+                fontFamily: 'Nunito_600SemiBold',
               }}
             >
               {generatedCards.length} cards generated
@@ -306,7 +318,7 @@ export default function CreateDeckScreen() {
                   alignItems: 'center',
                   gap: 6,
                   backgroundColor: COLORS.surfaceSecondary,
-                  borderRadius: 10,
+                  borderRadius: 12,
                   paddingHorizontal: 12,
                   paddingVertical: 8,
                 }}
@@ -316,7 +328,7 @@ export default function CreateDeckScreen() {
                 ) : (
                   <RotateCcw size={14} color={COLORS.primary} />
                 )}
-                <Text style={{ fontSize: 13, color: COLORS.primary, fontFamily: 'SpaceGrotesk_600SemiBold' }}>
+                <Text style={{ fontSize: 13, color: COLORS.primary, fontFamily: 'Nunito_700Bold' }}>
                   Regenerate
                 </Text>
               </View>
@@ -327,14 +339,14 @@ export default function CreateDeckScreen() {
             <View
               style={{
                 backgroundColor: 'rgba(239,68,68,0.08)',
-                borderRadius: 10,
+                borderRadius: 12,
                 padding: 12,
                 marginBottom: 16,
                 borderWidth: 1,
                 borderColor: 'rgba(239,68,68,0.15)',
               }}
             >
-              <Text style={{ fontSize: 13, color: COLORS.danger, fontFamily: 'SpaceGrotesk_500Medium' }}>
+              <Text style={{ fontSize: 13, color: COLORS.danger, fontFamily: 'Nunito_600SemiBold' }}>
                 {error}
               </Text>
             </View>
@@ -348,21 +360,24 @@ export default function CreateDeckScreen() {
                 <View
                   style={{
                     backgroundColor: COLORS.surface,
-                    borderRadius: 14,
+                    borderRadius: 16,
                     padding: 14,
                     marginBottom: 10,
                     borderWidth: 1,
                     borderColor: COLORS.border,
-                    borderCurve: 'continuous',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.04,
+                    shadowRadius: 4,
+                    elevation: 1,
                   }}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 10 }}>
                     <View
                       style={{
-                        width: 24,
-                        height: 24,
-                        borderRadius: 12,
+                        width: 26,
+                        height: 26,
+                        borderRadius: 13,
                         backgroundColor: COLORS.primaryMuted,
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -370,7 +385,7 @@ export default function CreateDeckScreen() {
                         marginTop: 1,
                       }}
                     >
-                      <Text style={{ fontSize: 11, fontWeight: '700', color: COLORS.primary, fontFamily: 'SpaceGrotesk_700Bold' }}>
+                      <Text style={{ fontSize: 11, fontWeight: '700', color: COLORS.primary, fontFamily: 'Nunito_700Bold' }}>
                         {cardNum}
                       </Text>
                     </View>
@@ -378,9 +393,9 @@ export default function CreateDeckScreen() {
                       <Text
                         style={{
                           fontSize: 14,
-                          fontWeight: '600',
+                          fontWeight: '700',
                           color: COLORS.text,
-                          fontFamily: 'SpaceGrotesk_600SemiBold',
+                          fontFamily: 'Nunito_700Bold',
                           lineHeight: 20,
                         }}
                         numberOfLines={isExpanded ? undefined : 2}
@@ -400,7 +415,7 @@ export default function CreateDeckScreen() {
                             style={{
                               fontSize: 13,
                               color: COLORS.textSecondary,
-                              fontFamily: 'SpaceGrotesk_400Regular',
+                              fontFamily: 'Nunito_400Regular',
                               lineHeight: 19,
                             }}
                           >
@@ -440,14 +455,18 @@ export default function CreateDeckScreen() {
           <AnimatedPressable onPress={handleSave} disabled={saving}>
             <View
               style={{
-                backgroundColor: COLORS.accent,
-                borderRadius: 14,
-                paddingVertical: 15,
+                backgroundColor: COLORS.primary,
+                borderRadius: 16,
+                height: 56,
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'row',
                 gap: 8,
-                borderCurve: 'continuous',
+                shadowColor: COLORS.primary,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.35,
+                shadowRadius: 10,
+                elevation: 4,
               }}
             >
               {saving ? (
@@ -455,7 +474,7 @@ export default function CreateDeckScreen() {
               ) : (
                 <>
                   <Save size={18} color="#fff" />
-                  <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff', fontFamily: 'SpaceGrotesk_600SemiBold' }}>
+                  <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
                     Save deck
                   </Text>
                 </>
@@ -472,19 +491,18 @@ const labelStyle = {
   fontSize: 13,
   fontWeight: '600' as const,
   color: COLORS.textSecondary,
-  fontFamily: 'SpaceGrotesk_600SemiBold',
+  fontFamily: 'Nunito_600SemiBold',
   marginBottom: 6,
 };
 
 const inputStyle = {
-  backgroundColor: COLORS.surfaceSecondary,
+  backgroundColor: COLORS.surface,
   borderRadius: 12,
   paddingHorizontal: 14,
   paddingVertical: 13,
   fontSize: 15,
   color: COLORS.text,
-  fontFamily: 'SpaceGrotesk_400Regular',
-  borderWidth: 1,
+  fontFamily: 'Nunito_400Regular',
+  borderWidth: 1.5,
   borderColor: COLORS.border,
-  borderCurve: 'continuous' as const,
 };

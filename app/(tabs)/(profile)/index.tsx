@@ -24,21 +24,24 @@ function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label:
       style={{
         flex: 1,
         backgroundColor: COLORS.surface,
-        borderRadius: 14,
-        padding: 14,
+        borderRadius: 20,
+        padding: 16,
         alignItems: 'center',
         gap: 6,
         borderWidth: 1,
         borderColor: COLORS.border,
-        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-        borderCurve: 'continuous',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 6,
+        elevation: 1,
       }}
     >
       <View
         style={{
-          width: 40,
-          height: 40,
-          borderRadius: 12,
+          width: 44,
+          height: 44,
+          borderRadius: 14,
           backgroundColor: `${color}18`,
           alignItems: 'center',
           justifyContent: 'center',
@@ -48,10 +51,10 @@ function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label:
       </View>
       <Text
         style={{
-          fontSize: 22,
-          fontWeight: '700',
-          color: COLORS.text,
-          fontFamily: 'SpaceGrotesk_700Bold',
+          fontSize: 26,
+          fontWeight: '800',
+          color: color,
+          fontFamily: 'Nunito_800ExtraBold',
           fontVariant: ['tabular-nums'],
         }}
       >
@@ -61,7 +64,7 @@ function StatCard({ icon, label, value, color }: { icon: React.ReactNode; label:
         style={{
           fontSize: 12,
           color: COLORS.textSecondary,
-          fontFamily: 'SpaceGrotesk_500Medium',
+          fontFamily: 'Nunito_600SemiBold',
           textAlign: 'center',
         }}
       >
@@ -98,7 +101,6 @@ export default function ProfileScreen() {
       setStats(data);
     } catch (e) {
       console.error('[ProfileScreen] Failed to fetch stats:', e);
-      // Use fallback zeros
       setStats({ total_decks: 0, total_cards: 0, quizzes_taken: 0, average_score: 0 });
     }
   };
@@ -120,7 +122,7 @@ export default function ProfileScreen() {
 
   const initials = (user.name || user.email || 'U')
     .split(' ')
-    .map((w) => w[0])
+    .map((w: string) => w[0])
     .join('')
     .toUpperCase()
     .slice(0, 2);
@@ -131,6 +133,7 @@ export default function ProfileScreen() {
   const totalDecksText = stats ? String(stats.total_decks) : '—';
   const totalCardsText = stats ? String(stats.total_cards) : '—';
   const quizzesTakenText = stats ? String(stats.quizzes_taken) : '—';
+  const signOutLabel = signingOut ? 'Signing out...' : 'Sign out';
 
   return (
     <ScrollView
@@ -139,26 +142,29 @@ export default function ProfileScreen() {
       contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 120 }}
     >
       {/* Avatar + Name */}
-      <View style={{ alignItems: 'center', paddingTop: 24, paddingBottom: 32 }}>
+      <View style={{ alignItems: 'center', paddingTop: 32, paddingBottom: 32 }}>
         <View
           style={{
-            width: 80,
-            height: 80,
-            borderRadius: 40,
-            backgroundColor: COLORS.primaryMuted,
+            width: 88,
+            height: 88,
+            borderRadius: 44,
+            backgroundColor: COLORS.secondary,
             alignItems: 'center',
             justifyContent: 'center',
-            marginBottom: 14,
-            borderWidth: 2,
-            borderColor: COLORS.primary,
+            marginBottom: 16,
+            shadowColor: COLORS.secondary,
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 10,
+            elevation: 4,
           }}
         >
           <Text
             style={{
-              fontSize: 28,
-              fontWeight: '700',
-              color: COLORS.primary,
-              fontFamily: 'SpaceGrotesk_700Bold',
+              fontSize: 30,
+              fontWeight: '800',
+              color: '#fff',
+              fontFamily: 'Nunito_800ExtraBold',
             }}
           >
             {initials}
@@ -166,11 +172,10 @@ export default function ProfileScreen() {
         </View>
         <Text
           style={{
-            fontSize: 22,
-            fontWeight: '700',
+            fontSize: 24,
+            fontWeight: '800',
             color: COLORS.text,
-            fontFamily: 'SpaceGrotesk_700Bold',
-            letterSpacing: -0.3,
+            fontFamily: 'Nunito_800ExtraBold',
           }}
         >
           {displayName}
@@ -179,7 +184,7 @@ export default function ProfileScreen() {
           style={{
             fontSize: 14,
             color: COLORS.textSecondary,
-            fontFamily: 'SpaceGrotesk_400Regular',
+            fontFamily: 'Nunito_400Regular',
             marginTop: 4,
           }}
         >
@@ -187,14 +192,14 @@ export default function ProfileScreen() {
         </Text>
       </View>
 
-      {/* Stats */}
+      {/* Stats heading */}
       <Text
         style={{
           fontSize: 13,
-          fontWeight: '600',
+          fontWeight: '700',
           color: COLORS.textTertiary,
-          fontFamily: 'SpaceGrotesk_600SemiBold',
-          letterSpacing: 0.5,
+          fontFamily: 'Nunito_700Bold',
+          letterSpacing: 0.8,
           textTransform: 'uppercase',
           marginBottom: 12,
         }}
@@ -203,30 +208,30 @@ export default function ProfileScreen() {
       </Text>
       <View style={{ flexDirection: 'row', gap: 10, marginBottom: 10 }}>
         <StatCard
-          icon={<BookOpen size={18} color={COLORS.primary} />}
+          icon={<BookOpen size={20} color={COLORS.primary} />}
           label="Total Decks"
           value={totalDecksText}
           color={COLORS.primary}
         />
         <StatCard
-          icon={<CreditCard size={18} color="#16A34A" />}
+          icon={<CreditCard size={20} color="#16A34A" />}
           label="Total Cards"
           value={totalCardsText}
           color="#16A34A"
         />
       </View>
-      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 32 }}>
+      <View style={{ flexDirection: 'row', gap: 10, marginBottom: 36 }}>
         <StatCard
-          icon={<Trophy size={18} color="#D97706" />}
+          icon={<Trophy size={20} color="#D97706" />}
           label="Quizzes Taken"
           value={quizzesTakenText}
           color="#D97706"
         />
         <StatCard
-          icon={<BarChart2 size={18} color="#9333EA" />}
+          icon={<BarChart2 size={20} color={COLORS.secondary} />}
           label="Avg Score"
           value={avgScoreText}
-          color="#9333EA"
+          color={COLORS.secondary}
         />
       </View>
 
@@ -234,28 +239,30 @@ export default function ProfileScreen() {
       <AnimatedPressable onPress={handleSignOut} disabled={signingOut}>
         <View
           style={{
-            backgroundColor: 'rgba(239,68,68,0.08)',
-            borderRadius: 14,
-            paddingVertical: 15,
+            backgroundColor: COLORS.surfaceDark,
+            borderRadius: 16,
+            paddingVertical: 16,
             alignItems: 'center',
             flexDirection: 'row',
             justifyContent: 'center',
             gap: 8,
-            borderWidth: 1,
-            borderColor: 'rgba(239,68,68,0.15)',
-            borderCurve: 'continuous',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.2,
+            shadowRadius: 8,
+            elevation: 4,
           }}
         >
-          <LogOut size={18} color={COLORS.danger} />
+          <LogOut size={18} color="#fff" />
           <Text
             style={{
               fontSize: 15,
-              fontWeight: '600',
-              color: COLORS.danger,
-              fontFamily: 'SpaceGrotesk_600SemiBold',
+              fontWeight: '700',
+              color: '#fff',
+              fontFamily: 'Nunito_700Bold',
             }}
           >
-            {signingOut ? 'Signing out...' : 'Sign out'}
+            {signOutLabel}
           </Text>
         </View>
       </AnimatedPressable>

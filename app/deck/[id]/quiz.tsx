@@ -107,9 +107,7 @@ export default function QuizScreen() {
       setCurrentIndex(currentIndex + 1);
       setSelectedAnswer(null);
     } else {
-      // Navigate to results
-      const allAnswers = answers;
-      const answersParam = JSON.stringify(allAnswers);
+      const answersParam = JSON.stringify(answers);
       console.log('[QuizMode] Quiz complete, navigating to results');
       router.replace({
         pathname: `/deck/${id}/results`,
@@ -122,7 +120,7 @@ export default function QuizScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: COLORS.background, alignItems: 'center', justifyContent: 'center' }}>
         <ActivityIndicator color={COLORS.primary} />
-        <Text style={{ marginTop: 12, fontSize: 14, color: COLORS.textSecondary, fontFamily: 'SpaceGrotesk_500Medium' }}>
+        <Text style={{ marginTop: 12, fontSize: 14, color: COLORS.textSecondary, fontFamily: 'Nunito_600SemiBold' }}>
           Loading quiz...
         </Text>
       </View>
@@ -132,12 +130,12 @@ export default function QuizScreen() {
   if (error || questions.length === 0) {
     return (
       <View style={{ flex: 1, backgroundColor: COLORS.background, alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-        <Text style={{ fontSize: 15, color: COLORS.danger, textAlign: 'center', fontFamily: 'SpaceGrotesk_500Medium', marginBottom: 16 }}>
+        <Text style={{ fontSize: 15, color: COLORS.danger, textAlign: 'center', fontFamily: 'Nunito_600SemiBold', marginBottom: 16 }}>
           {error || 'No quiz questions available for this deck.'}
         </Text>
         <AnimatedPressable onPress={() => router.back()}>
           <View style={{ backgroundColor: COLORS.primaryMuted, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 10 }}>
-            <Text style={{ color: COLORS.primary, fontFamily: 'SpaceGrotesk_600SemiBold', fontSize: 14 }}>Go back</Text>
+            <Text style={{ color: COLORS.primary, fontFamily: 'Nunito_700Bold', fontSize: 14 }}>Go back</Text>
           </View>
         </AnimatedPressable>
       </View>
@@ -146,9 +144,10 @@ export default function QuizScreen() {
 
   const question = questions[currentIndex];
   const total = questions.length;
-  const progressLabel = `${currentIndex + 1} / ${total}`;
   const isLastQuestion = currentIndex === questions.length - 1;
   const nextLabel = isLastQuestion ? 'See results' : 'Next question';
+  const questionNumText = `${currentIndex + 1}`;
+  const totalText = `${total}`;
 
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.background }}>
@@ -162,24 +161,45 @@ export default function QuizScreen() {
           paddingBottom: 16,
         }}
       >
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
           <AnimatedPressable onPress={() => router.back()}>
-            <View style={{ padding: 4 }}>
-              <XCircle size={22} color={COLORS.textTertiary} />
+            <View
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: 18,
+                backgroundColor: COLORS.surfaceSecondary,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <XCircle size={20} color={COLORS.textTertiary} />
             </View>
           </AnimatedPressable>
-          <Text
+
+          {/* Question number badge */}
+          <View
             style={{
-              fontSize: 14,
-              fontWeight: '600',
-              color: COLORS.textSecondary,
-              fontFamily: 'SpaceGrotesk_600SemiBold',
-              fontVariant: ['tabular-nums'],
+              backgroundColor: COLORS.primary,
+              borderRadius: 20,
+              paddingHorizontal: 14,
+              paddingVertical: 6,
             }}
           >
-            {progressLabel}
-          </Text>
-          <View style={{ width: 30 }} />
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+              <Text style={{ fontSize: 14, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold', fontVariant: ['tabular-nums'] }}>
+                {questionNumText}
+              </Text>
+              <Text style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', fontFamily: 'Nunito_400Regular' }}>
+                /
+              </Text>
+              <Text style={{ fontSize: 14, color: 'rgba(255,255,255,0.6)', fontFamily: 'Nunito_400Regular', fontVariant: ['tabular-nums'] }}>
+                {totalText}
+              </Text>
+            </View>
+          </View>
+
+          <View style={{ width: 36 }} />
         </View>
 
         {/* Progress bar */}
@@ -202,40 +222,29 @@ export default function QuizScreen() {
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: insets.bottom + 100 }}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Question */}
+        {/* Question card */}
         <View
           style={{
             backgroundColor: COLORS.surface,
             borderRadius: 20,
             padding: 24,
-            marginBottom: 24,
+            marginBottom: 20,
             borderWidth: 1,
             borderColor: COLORS.border,
-            boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)',
-            borderCurve: 'continuous',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.06,
+            shadowRadius: 8,
+            elevation: 2,
           }}
         >
           <Text
             style={{
-              fontSize: 11,
-              fontWeight: '600',
-              color: COLORS.primary,
-              fontFamily: 'SpaceGrotesk_600SemiBold',
-              letterSpacing: 1,
-              textTransform: 'uppercase',
-              marginBottom: 12,
-            }}
-          >
-            Question {currentIndex + 1}
-          </Text>
-          <Text
-            style={{
               fontSize: 19,
-              fontWeight: '700',
+              fontWeight: '800',
               color: COLORS.text,
-              fontFamily: 'SpaceGrotesk_700Bold',
+              fontFamily: 'Nunito_800ExtraBold',
               lineHeight: 27,
-              letterSpacing: -0.2,
             }}
           >
             {question.question}
@@ -279,7 +288,7 @@ export default function QuizScreen() {
               <View
                 style={{
                   backgroundColor: bgColor,
-                  borderRadius: 14,
+                  borderRadius: 16,
                   padding: 16,
                   marginBottom: 10,
                   borderWidth: 1.5,
@@ -287,14 +296,18 @@ export default function QuizScreen() {
                   flexDirection: 'row',
                   alignItems: 'center',
                   gap: 12,
-                  borderCurve: 'continuous',
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.04,
+                  shadowRadius: 4,
+                  elevation: 1,
                 }}
               >
                 <View
                   style={{
-                    width: 28,
-                    height: 28,
-                    borderRadius: 14,
+                    width: 30,
+                    height: 30,
+                    borderRadius: 15,
                     backgroundColor: showResult
                       ? isCorrect
                         ? 'rgba(34,197,94,0.15)'
@@ -317,7 +330,7 @@ export default function QuizScreen() {
                         fontSize: 12,
                         fontWeight: '700',
                         color: COLORS.textSecondary,
-                        fontFamily: 'SpaceGrotesk_700Bold',
+                        fontFamily: 'Nunito_700Bold',
                       }}
                     >
                       {optionLetter}
@@ -328,9 +341,9 @@ export default function QuizScreen() {
                   style={{
                     flex: 1,
                     fontSize: 15,
-                    fontWeight: '500',
+                    fontWeight: '600',
                     color: textColor,
-                    fontFamily: 'SpaceGrotesk_500Medium',
+                    fontFamily: 'Nunito_600SemiBold',
                     lineHeight: 21,
                   }}
                 >
@@ -361,16 +374,20 @@ export default function QuizScreen() {
             <View
               style={{
                 backgroundColor: COLORS.primary,
-                borderRadius: 14,
-                paddingVertical: 15,
+                borderRadius: 16,
+                height: 56,
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexDirection: 'row',
                 gap: 8,
-                borderCurve: 'continuous',
+                shadowColor: COLORS.primary,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.35,
+                shadowRadius: 10,
+                elevation: 4,
               }}
             >
-              <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff', fontFamily: 'SpaceGrotesk_600SemiBold' }}>
+              <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
                 {nextLabel}
               </Text>
               <ChevronRight size={18} color="#fff" />

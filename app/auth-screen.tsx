@@ -96,6 +96,11 @@ export default function AuthScreen() {
 
   const isSignIn = mode === 'signin';
   const buttonLabel = isSignIn ? 'Sign in' : 'Create account';
+  const subtitleText = isSignIn ? 'Welcome back, scholar' : 'Start studying smarter';
+  const togglePrompt = isSignIn ? "Don't have an account? " : 'Already have an account? ';
+  const toggleAction = isSignIn ? 'Sign up' : 'Sign in';
+  const appleLabel = isSignIn ? 'Sign in with Apple' : 'Sign up with Apple';
+  const googleLabel = isSignIn ? 'Sign in with Google' : 'Sign up with Google';
 
   return (
     <KeyboardAvoidingView
@@ -110,27 +115,28 @@ export default function AuthScreen() {
         <View style={{ alignItems: 'center', marginBottom: 40 }}>
           <View
             style={{
-              width: 72,
-              height: 72,
-              borderRadius: 20,
-              backgroundColor: COLORS.primaryMuted,
+              width: 80,
+              height: 80,
+              borderRadius: 24,
+              backgroundColor: COLORS.primary,
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: 16,
-              borderCurve: 'continuous',
-              borderWidth: 1,
-              borderColor: COLORS.border,
+              shadowColor: COLORS.primary,
+              shadowOffset: { width: 0, height: 6 },
+              shadowOpacity: 0.35,
+              shadowRadius: 12,
+              elevation: 6,
             }}
           >
-            <GraduationCap size={34} color={COLORS.primary} />
+            <GraduationCap size={38} color="#fff" />
           </View>
           <Text
             style={{
-              fontSize: 28,
-              fontWeight: '700',
+              fontSize: 30,
+              fontWeight: '800',
               color: COLORS.text,
-              fontFamily: 'SpaceGrotesk_700Bold',
-              letterSpacing: -0.5,
+              fontFamily: 'Nunito_800ExtraBold',
             }}
           >
             FlashAI
@@ -139,12 +145,12 @@ export default function AuthScreen() {
             style={{
               fontSize: 15,
               color: COLORS.textSecondary,
-              fontFamily: 'SpaceGrotesk_400Regular',
+              fontFamily: 'Nunito_400Regular',
               marginTop: 6,
               textAlign: 'center',
             }}
           >
-            {isSignIn ? 'Welcome back, scholar' : 'Start studying smarter'}
+            {subtitleText}
           </Text>
         </View>
 
@@ -152,15 +158,14 @@ export default function AuthScreen() {
         <AnimatedPressable onPress={handleApple} disabled={socialLoading !== null}>
           <View
             style={{
-              backgroundColor: COLORS.text,
-              borderRadius: 14,
-              paddingVertical: 14,
+              backgroundColor: COLORS.surfaceDark,
+              borderRadius: 16,
+              paddingVertical: 15,
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'row',
               gap: 10,
               marginBottom: 10,
-              borderCurve: 'continuous',
             }}
           >
             {socialLoading === 'apple' ? (
@@ -168,8 +173,8 @@ export default function AuthScreen() {
             ) : (
               <>
                 <Text style={{ fontSize: 17, color: '#fff' }}></Text>
-                <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff', fontFamily: 'SpaceGrotesk_600SemiBold' }}>
-                  {isSignIn ? 'Sign in with Apple' : 'Sign up with Apple'}
+                <Text style={{ fontSize: 15, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
+                  {appleLabel}
                 </Text>
               </>
             )}
@@ -180,16 +185,15 @@ export default function AuthScreen() {
           <View
             style={{
               backgroundColor: COLORS.surface,
-              borderRadius: 14,
-              paddingVertical: 14,
+              borderRadius: 16,
+              paddingVertical: 15,
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'row',
               gap: 10,
               marginBottom: 24,
-              borderWidth: 1,
+              borderWidth: 1.5,
               borderColor: COLORS.border,
-              borderCurve: 'continuous',
             }}
           >
             {socialLoading === 'google' ? (
@@ -197,8 +201,8 @@ export default function AuthScreen() {
             ) : (
               <>
                 <Text style={{ fontSize: 16 }}>G</Text>
-                <Text style={{ fontSize: 15, fontWeight: '600', color: COLORS.text, fontFamily: 'SpaceGrotesk_600SemiBold' }}>
-                  {isSignIn ? 'Sign in with Google' : 'Sign up with Google'}
+                <Text style={{ fontSize: 15, fontWeight: '700', color: COLORS.text, fontFamily: 'Nunito_700Bold' }}>
+                  {googleLabel}
                 </Text>
               </>
             )}
@@ -208,28 +212,15 @@ export default function AuthScreen() {
         {/* Divider */}
         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 24, gap: 12 }}>
           <View style={{ flex: 1, height: 1, backgroundColor: COLORS.border }} />
-          <Text style={{ fontSize: 13, color: COLORS.textTertiary, fontFamily: 'SpaceGrotesk_400Regular' }}>or</Text>
+          <Text style={{ fontSize: 13, color: COLORS.textTertiary, fontFamily: 'Nunito_400Regular' }}>or</Text>
           <View style={{ flex: 1, height: 1, backgroundColor: COLORS.border }} />
         </View>
 
         {/* Form */}
         {!isSignIn && (
           <View style={{ marginBottom: 16 }}>
-            <Text style={{ fontSize: 13, fontWeight: '600', color: COLORS.textSecondary, fontFamily: 'SpaceGrotesk_600SemiBold', marginBottom: 6 }}>
-              Name
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: COLORS.surfaceSecondary,
-                borderRadius: 12,
-                paddingHorizontal: 14,
-                borderWidth: 1,
-                borderColor: COLORS.border,
-                borderCurve: 'continuous',
-              }}
-            >
+            <Text style={labelStyle}>Name</Text>
+            <View style={inputWrapStyle}>
               <User size={16} color={COLORS.textTertiary} />
               <TextInput
                 value={name}
@@ -238,35 +229,15 @@ export default function AuthScreen() {
                 placeholderTextColor={COLORS.textTertiary}
                 autoCapitalize="words"
                 returnKeyType="next"
-                style={{
-                  flex: 1,
-                  paddingVertical: 14,
-                  paddingLeft: 10,
-                  fontSize: 15,
-                  color: COLORS.text,
-                  fontFamily: 'SpaceGrotesk_400Regular',
-                }}
+                style={inputStyle}
               />
             </View>
           </View>
         )}
 
         <View style={{ marginBottom: 16 }}>
-          <Text style={{ fontSize: 13, fontWeight: '600', color: COLORS.textSecondary, fontFamily: 'SpaceGrotesk_600SemiBold', marginBottom: 6 }}>
-            Email
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: COLORS.surfaceSecondary,
-              borderRadius: 12,
-              paddingHorizontal: 14,
-              borderWidth: 1,
-              borderColor: COLORS.border,
-              borderCurve: 'continuous',
-            }}
-          >
+          <Text style={labelStyle}>Email</Text>
+          <View style={inputWrapStyle}>
             <Mail size={16} color={COLORS.textTertiary} />
             <TextInput
               value={email}
@@ -277,34 +248,14 @@ export default function AuthScreen() {
               autoCapitalize="none"
               autoCorrect={false}
               returnKeyType="next"
-              style={{
-                flex: 1,
-                paddingVertical: 14,
-                paddingLeft: 10,
-                fontSize: 15,
-                color: COLORS.text,
-                fontFamily: 'SpaceGrotesk_400Regular',
-              }}
+              style={inputStyle}
             />
           </View>
         </View>
 
         <View style={{ marginBottom: 24 }}>
-          <Text style={{ fontSize: 13, fontWeight: '600', color: COLORS.textSecondary, fontFamily: 'SpaceGrotesk_600SemiBold', marginBottom: 6 }}>
-            Password
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: COLORS.surfaceSecondary,
-              borderRadius: 12,
-              paddingHorizontal: 14,
-              borderWidth: 1,
-              borderColor: COLORS.border,
-              borderCurve: 'continuous',
-            }}
-          >
+          <Text style={labelStyle}>Password</Text>
+          <View style={inputWrapStyle}>
             <Lock size={16} color={COLORS.textTertiary} />
             <TextInput
               value={password}
@@ -314,14 +265,7 @@ export default function AuthScreen() {
               secureTextEntry={!showPassword}
               returnKeyType="done"
               onSubmitEditing={handleSubmit}
-              style={{
-                flex: 1,
-                paddingVertical: 14,
-                paddingLeft: 10,
-                fontSize: 15,
-                color: COLORS.text,
-                fontFamily: 'SpaceGrotesk_400Regular',
-              }}
+              style={inputStyle}
             />
             <AnimatedPressable onPress={() => setShowPassword(!showPassword)}>
               {showPassword ? (
@@ -337,14 +281,14 @@ export default function AuthScreen() {
           <View
             style={{
               backgroundColor: 'rgba(239,68,68,0.08)',
-              borderRadius: 10,
+              borderRadius: 12,
               padding: 12,
               marginBottom: 16,
               borderWidth: 1,
               borderColor: 'rgba(239,68,68,0.15)',
             }}
           >
-            <Text style={{ fontSize: 13, color: COLORS.danger, fontFamily: 'SpaceGrotesk_500Medium' }}>
+            <Text style={{ fontSize: 13, color: COLORS.danger, fontFamily: 'Nunito_600SemiBold' }}>
               {error}
             </Text>
           </View>
@@ -354,18 +298,22 @@ export default function AuthScreen() {
           <View
             style={{
               backgroundColor: COLORS.primary,
-              borderRadius: 14,
-              paddingVertical: 15,
+              borderRadius: 16,
+              height: 56,
               alignItems: 'center',
               justifyContent: 'center',
-              borderCurve: 'continuous',
               opacity: submitting ? 0.8 : 1,
+              shadowColor: COLORS.primary,
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.35,
+              shadowRadius: 10,
+              elevation: 4,
             }}
           >
             {submitting ? (
               <ActivityIndicator color="#fff" size="small" />
             ) : (
-              <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff', fontFamily: 'SpaceGrotesk_600SemiBold' }}>
+              <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
                 {buttonLabel}
               </Text>
             )}
@@ -373,14 +321,43 @@ export default function AuthScreen() {
         </AnimatedPressable>
 
         <AnimatedPressable onPress={toggleMode} style={{ marginTop: 20, alignItems: 'center' }}>
-          <Text style={{ fontSize: 14, color: COLORS.textSecondary, fontFamily: 'SpaceGrotesk_400Regular' }}>
-            {isSignIn ? "Don't have an account? " : 'Already have an account? '}
-            <Text style={{ color: COLORS.primary, fontFamily: 'SpaceGrotesk_600SemiBold' }}>
-              {isSignIn ? 'Sign up' : 'Sign in'}
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={{ fontSize: 14, color: COLORS.textSecondary, fontFamily: 'Nunito_400Regular' }}>
+              {togglePrompt}
             </Text>
-          </Text>
+            <Text style={{ fontSize: 14, color: COLORS.primary, fontFamily: 'Nunito_700Bold' }}>
+              {toggleAction}
+            </Text>
+          </View>
         </AnimatedPressable>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
+
+const labelStyle = {
+  fontSize: 13,
+  fontWeight: '600' as const,
+  color: COLORS.textSecondary,
+  fontFamily: 'Nunito_600SemiBold',
+  marginBottom: 6,
+};
+
+const inputWrapStyle = {
+  flexDirection: 'row' as const,
+  alignItems: 'center' as const,
+  backgroundColor: COLORS.surfaceSecondary,
+  borderRadius: 12,
+  paddingHorizontal: 14,
+  borderWidth: 1,
+  borderColor: COLORS.border,
+};
+
+const inputStyle = {
+  flex: 1,
+  paddingVertical: 14,
+  paddingLeft: 10,
+  fontSize: 15,
+  color: COLORS.text,
+  fontFamily: 'Nunito_400Regular',
+};

@@ -17,11 +17,11 @@ import { StatusBar } from "expo-status-bar";
 import { WidgetProvider } from "@/contexts/WidgetContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import {
-  SpaceGrotesk_400Regular,
-  SpaceGrotesk_500Medium,
-  SpaceGrotesk_600SemiBold,
-  SpaceGrotesk_700Bold,
-} from "@expo-google-fonts/space-grotesk";
+  Nunito_400Regular,
+  Nunito_600SemiBold,
+  Nunito_700Bold,
+  Nunito_800ExtraBold,
+} from "@expo-google-fonts/nunito";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -33,10 +33,10 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    SpaceGrotesk_400Regular,
-    SpaceGrotesk_500Medium,
-    SpaceGrotesk_600SemiBold,
-    SpaceGrotesk_700Bold,
+    Nunito_400Regular,
+    Nunito_600SemiBold,
+    Nunito_700Bold,
+    Nunito_800ExtraBold,
   });
 
   useEffect(() => {
@@ -53,11 +53,11 @@ export default function RootLayout() {
     ...DefaultTheme,
     dark: false,
     colors: {
-      primary: "#4F6EF7",
-      background: "#F5F7FF",
+      primary: "#F97316",
+      background: "#FAF7F2",
       card: "#FFFFFF",
-      text: "#1A1D2E",
-      border: "rgba(79,110,247,0.08)",
+      text: "#1A1A1A",
+      border: "rgba(0,0,0,0.06)",
       notification: "#EF4444",
     },
   };
@@ -65,11 +65,11 @@ export default function RootLayout() {
   const CustomDarkTheme: Theme = {
     ...DarkTheme,
     colors: {
-      primary: "#6B87F8",
-      background: "#0F1119",
-      card: "#1A1D2E",
-      text: "#F0F2FF",
-      border: "rgba(79,110,247,0.12)",
+      primary: "#F97316",
+      background: "#1C1C1E",
+      card: "#2C2C2E",
+      text: "#FFFFFF",
+      border: "rgba(255,255,255,0.08)",
       notification: "#EF4444",
     },
   };

@@ -54,20 +54,24 @@ function CardPreview({ card, index }: { card: Flashcard; index: number }) {
       <View
         style={{
           backgroundColor: COLORS.surface,
-          borderRadius: 12,
+          borderRadius: 14,
           padding: 14,
           marginBottom: 8,
           borderWidth: 1,
           borderColor: COLORS.border,
-          borderCurve: 'continuous',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.04,
+          shadowRadius: 4,
+          elevation: 1,
         }}
       >
         <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 10 }}>
           <View
             style={{
-              width: 22,
-              height: 22,
-              borderRadius: 11,
+              width: 24,
+              height: 24,
+              borderRadius: 12,
               backgroundColor: COLORS.primaryMuted,
               alignItems: 'center',
               justifyContent: 'center',
@@ -75,7 +79,7 @@ function CardPreview({ card, index }: { card: Flashcard; index: number }) {
               marginTop: 1,
             }}
           >
-            <Text style={{ fontSize: 10, fontWeight: '700', color: COLORS.primary, fontFamily: 'SpaceGrotesk_700Bold' }}>
+            <Text style={{ fontSize: 10, fontWeight: '700', color: COLORS.primary, fontFamily: 'Nunito_700Bold' }}>
               {cardNum}
             </Text>
           </View>
@@ -83,9 +87,9 @@ function CardPreview({ card, index }: { card: Flashcard; index: number }) {
             <Text
               style={{
                 fontSize: 14,
-                fontWeight: '600',
+                fontWeight: '700',
                 color: COLORS.text,
-                fontFamily: 'SpaceGrotesk_600SemiBold',
+                fontFamily: 'Nunito_700Bold',
                 lineHeight: 20,
               }}
               numberOfLines={expanded ? undefined : 2}
@@ -98,7 +102,7 @@ function CardPreview({ card, index }: { card: Flashcard; index: number }) {
                   style={{
                     fontSize: 13,
                     color: COLORS.textSecondary,
-                    fontFamily: 'SpaceGrotesk_400Regular',
+                    fontFamily: 'Nunito_400Regular',
                     lineHeight: 19,
                   }}
                 >
@@ -180,12 +184,12 @@ export default function DeckDetailScreen() {
   if (error || !deck) {
     return (
       <View style={{ flex: 1, backgroundColor: COLORS.background, alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-        <Text style={{ fontSize: 15, color: COLORS.danger, textAlign: 'center', fontFamily: 'SpaceGrotesk_500Medium', marginBottom: 16 }}>
+        <Text style={{ fontSize: 15, color: COLORS.danger, textAlign: 'center', fontFamily: 'Nunito_600SemiBold', marginBottom: 16 }}>
           {error || 'Deck not found.'}
         </Text>
         <AnimatedPressable onPress={fetchData}>
           <View style={{ backgroundColor: COLORS.primaryMuted, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 10 }}>
-            <Text style={{ color: COLORS.primary, fontFamily: 'SpaceGrotesk_600SemiBold', fontSize: 14 }}>Try again</Text>
+            <Text style={{ color: COLORS.primary, fontFamily: 'Nunito_700Bold', fontSize: 14 }}>Try again</Text>
           </View>
         </AnimatedPressable>
       </View>
@@ -195,6 +199,7 @@ export default function DeckDetailScreen() {
   const subjectColor = getSubjectColor(deck.subject);
   const cardCountText = `${deck.card_count ?? deck.flashcards?.length ?? 0} cards`;
   const createdText = formatDate(deck.created_at);
+  const subjectLabel = deck.subject || 'General';
 
   return (
     <>
@@ -219,42 +224,47 @@ export default function DeckDetailScreen() {
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 40 }}
       >
-        {/* Hero */}
+        {/* Hero banner */}
         <View
           style={{
-            backgroundColor: COLORS.surface,
-            borderRadius: 20,
-            padding: 20,
+            backgroundColor: COLORS.primary,
+            borderRadius: 24,
+            padding: 24,
             marginTop: 8,
-            marginBottom: 20,
-            borderWidth: 1,
-            borderColor: COLORS.border,
-            boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)',
-            borderCurve: 'continuous',
+            marginBottom: 16,
+            overflow: 'hidden',
+            shadowColor: COLORS.primary,
+            shadowOffset: { width: 0, height: 6 },
+            shadowOpacity: 0.3,
+            shadowRadius: 14,
+            elevation: 6,
           }}
         >
+          <Text style={{ position: 'absolute', top: 12, right: 20, fontSize: 24, opacity: 0.2, color: '#fff' }}>✦</Text>
+          <Text style={{ position: 'absolute', bottom: 20, right: 40, fontSize: 16, opacity: 0.15, color: '#fff' }}>★</Text>
+
           <View
             style={{
-              backgroundColor: subjectColor.bg,
-              borderRadius: 8,
-              paddingHorizontal: 10,
-              paddingVertical: 4,
+              backgroundColor: 'rgba(255,255,255,0.2)',
+              borderRadius: 20,
+              paddingHorizontal: 12,
+              paddingVertical: 5,
               alignSelf: 'flex-start',
-              marginBottom: 10,
+              marginBottom: 12,
             }}
           >
-            <Text style={{ fontSize: 12, fontWeight: '600', color: subjectColor.text, fontFamily: 'SpaceGrotesk_600SemiBold' }}>
-              {deck.subject || 'General'}
+            <Text style={{ fontSize: 12, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
+              {subjectLabel}
             </Text>
           </View>
           <Text
             style={{
-              fontSize: 22,
-              fontWeight: '700',
-              color: COLORS.text,
-              fontFamily: 'SpaceGrotesk_700Bold',
-              letterSpacing: -0.3,
-              marginBottom: 6,
+              fontSize: 24,
+              fontWeight: '800',
+              color: '#fff',
+              fontFamily: 'Nunito_800ExtraBold',
+              marginBottom: 8,
+              lineHeight: 30,
             }}
           >
             {deck.title}
@@ -263,8 +273,8 @@ export default function DeckDetailScreen() {
             <Text
               style={{
                 fontSize: 14,
-                color: COLORS.textSecondary,
-                fontFamily: 'SpaceGrotesk_400Regular',
+                color: 'rgba(255,255,255,0.8)',
+                fontFamily: 'Nunito_400Regular',
                 lineHeight: 20,
                 marginBottom: 12,
               }}
@@ -274,14 +284,14 @@ export default function DeckDetailScreen() {
           ) : null}
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-              <BookOpen size={14} color={COLORS.textTertiary} />
-              <Text style={{ fontSize: 13, color: COLORS.textSecondary, fontFamily: 'SpaceGrotesk_500Medium' }}>
+              <BookOpen size={14} color="rgba(255,255,255,0.7)" />
+              <Text style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', fontFamily: 'Nunito_600SemiBold' }}>
                 {cardCountText}
               </Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-              <Calendar size={14} color={COLORS.textTertiary} />
-              <Text style={{ fontSize: 13, color: COLORS.textTertiary, fontFamily: 'SpaceGrotesk_400Regular' }}>
+              <Calendar size={14} color="rgba(255,255,255,0.7)" />
+              <Text style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', fontFamily: 'Nunito_400Regular' }}>
                 {createdText}
               </Text>
             </View>
@@ -294,17 +304,21 @@ export default function DeckDetailScreen() {
             <View
               style={{
                 backgroundColor: COLORS.primary,
-                borderRadius: 14,
-                paddingVertical: 15,
+                borderRadius: 16,
+                paddingVertical: 16,
                 alignItems: 'center',
                 flexDirection: 'row',
                 justifyContent: 'center',
                 gap: 8,
-                borderCurve: 'continuous',
+                shadowColor: COLORS.primary,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 4,
               }}
             >
               <Brain size={18} color="#fff" />
-              <Text style={{ fontSize: 15, fontWeight: '600', color: '#fff', fontFamily: 'SpaceGrotesk_600SemiBold' }}>
+              <Text style={{ fontSize: 15, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
                 Study
               </Text>
             </View>
@@ -312,20 +326,22 @@ export default function DeckDetailScreen() {
           <AnimatedPressable onPress={handleQuiz} style={{ flex: 1 }}>
             <View
               style={{
-                backgroundColor: COLORS.surface,
-                borderRadius: 14,
-                paddingVertical: 15,
+                backgroundColor: COLORS.surfaceDark,
+                borderRadius: 16,
+                paddingVertical: 16,
                 alignItems: 'center',
                 flexDirection: 'row',
                 justifyContent: 'center',
                 gap: 8,
-                borderWidth: 1.5,
-                borderColor: COLORS.primary,
-                borderCurve: 'continuous',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.2,
+                shadowRadius: 8,
+                elevation: 4,
               }}
             >
-              <ClipboardList size={18} color={COLORS.primary} />
-              <Text style={{ fontSize: 15, fontWeight: '600', color: COLORS.primary, fontFamily: 'SpaceGrotesk_600SemiBold' }}>
+              <ClipboardList size={18} color="#fff" />
+              <Text style={{ fontSize: 15, fontWeight: '700', color: '#fff', fontFamily: 'Nunito_700Bold' }}>
                 Quiz
               </Text>
             </View>
@@ -338,10 +354,10 @@ export default function DeckDetailScreen() {
             <Text
               style={{
                 fontSize: 13,
-                fontWeight: '600',
+                fontWeight: '700',
                 color: COLORS.textTertiary,
-                fontFamily: 'SpaceGrotesk_600SemiBold',
-                letterSpacing: 0.5,
+                fontFamily: 'Nunito_700Bold',
+                letterSpacing: 0.8,
                 textTransform: 'uppercase',
                 marginBottom: 12,
               }}
@@ -354,12 +370,13 @@ export default function DeckDetailScreen() {
               const pctText = `${pct}%`;
               const scoreText = `${attempt.score}/${attempt.total_questions}`;
               const dateText = formatDistanceToNow(attempt.created_at);
+              const badgeLabel = passed ? 'Passed' : 'Keep studying';
               return (
                 <View
                   key={attempt.id}
                   style={{
                     backgroundColor: COLORS.surface,
-                    borderRadius: 12,
+                    borderRadius: 14,
                     padding: 14,
                     marginBottom: 8,
                     flexDirection: 'row',
@@ -367,7 +384,11 @@ export default function DeckDetailScreen() {
                     justifyContent: 'space-between',
                     borderWidth: 1,
                     borderColor: COLORS.border,
-                    borderCurve: 'continuous',
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.04,
+                    shadowRadius: 4,
+                    elevation: 1,
                   }}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -377,10 +398,10 @@ export default function DeckDetailScreen() {
                       <XCircle size={18} color={COLORS.danger} />
                     )}
                     <View>
-                      <Text style={{ fontSize: 15, fontWeight: '700', color: COLORS.text, fontFamily: 'SpaceGrotesk_700Bold' }}>
+                      <Text style={{ fontSize: 15, fontWeight: '700', color: COLORS.text, fontFamily: 'Nunito_700Bold' }}>
                         {pctText}
                       </Text>
-                      <Text style={{ fontSize: 12, color: COLORS.textTertiary, fontFamily: 'SpaceGrotesk_400Regular' }}>
+                      <Text style={{ fontSize: 12, color: COLORS.textTertiary, fontFamily: 'Nunito_400Regular' }}>
                         {scoreText}
                       </Text>
                     </View>
@@ -389,7 +410,7 @@ export default function DeckDetailScreen() {
                     <View
                       style={{
                         backgroundColor: passed ? 'rgba(34,197,94,0.10)' : 'rgba(239,68,68,0.08)',
-                        borderRadius: 6,
+                        borderRadius: 8,
                         paddingHorizontal: 8,
                         paddingVertical: 3,
                       }}
@@ -397,15 +418,15 @@ export default function DeckDetailScreen() {
                       <Text
                         style={{
                           fontSize: 11,
-                          fontWeight: '600',
+                          fontWeight: '700',
                           color: passed ? COLORS.accent : COLORS.danger,
-                          fontFamily: 'SpaceGrotesk_600SemiBold',
+                          fontFamily: 'Nunito_700Bold',
                         }}
                       >
-                        {passed ? 'Passed' : 'Keep studying'}
+                        {badgeLabel}
                       </Text>
                     </View>
-                    <Text style={{ fontSize: 12, color: COLORS.textTertiary, fontFamily: 'SpaceGrotesk_400Regular' }}>
+                    <Text style={{ fontSize: 12, color: COLORS.textTertiary, fontFamily: 'Nunito_400Regular' }}>
                       {dateText}
                     </Text>
                   </View>
@@ -420,10 +441,10 @@ export default function DeckDetailScreen() {
         <Text
           style={{
             fontSize: 13,
-            fontWeight: '600',
+            fontWeight: '700',
             color: COLORS.textTertiary,
-            fontFamily: 'SpaceGrotesk_600SemiBold',
-            letterSpacing: 0.5,
+            fontFamily: 'Nunito_700Bold',
+            letterSpacing: 0.8,
             textTransform: 'uppercase',
             marginBottom: 12,
           }}
